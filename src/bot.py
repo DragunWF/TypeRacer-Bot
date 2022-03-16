@@ -1,5 +1,6 @@
 import time
 
+from .utils import Utilities
 from colored import fg
 from pynput.keyboard import Controller, Key
 from webdriver_manager.chrome import ChromeDriverManager
@@ -13,7 +14,7 @@ from selenium.webdriver.support import expected_conditions as EC
 driver = webdriver.Chrome(ChromeDriverManager().install())
 
 keyboard = Controller()
-green = fg("light_green")
+green, yellow, red = fg("light_green"), fg("light_yellow"), fg("light_red")
 
 
 class Bot:
@@ -79,6 +80,19 @@ class Bot:
             time.sleep(0.085)
         time.sleep(0.1)
 
+    def exit(self):
+        print(yellow + "Shutting down bot in...")
+        Utilities.text_to_speech("Shutting down in...")
+
+        number_words = ("one", "two", "three")
+        for i in range(3):
+            time_to_quit = (i + 1) - 3
+            color = yellow if time_to_quit > 2 else red
+            print(color + time_to_quit)
+            Utilities.text_to_speech(number_words[time_to_quit - 1])
+
+        driver.quit()
+
     def run(self):
         self.login()
         self.enter_race()
@@ -88,3 +102,5 @@ class Bot:
 
             self.race()
             self.new_race()
+
+        self.exit()
