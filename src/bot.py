@@ -15,7 +15,7 @@ keyboard = Controller()
 
 
 class Bot:
-    def __init__(self, username, password, session, races):
+    def __init__(self, username, password, session, races, universe):
         self.username = username
         self.password = password
         self.session = session
@@ -24,7 +24,11 @@ class Bot:
         self.finished_races = 0
         self.key_intervals = (0.085, 0.090, 0.095)
 
-        driver.get("https://play.typeracer.com/")
+        self.url = "https://play.typeracer.com/"
+        if universe != "play":
+            self.url += f"?universe={universe}"
+
+        driver.get(self.url)
 
     def login(self):
         sign_in = WebDriverWait(driver, 10).until(
@@ -43,7 +47,7 @@ class Bot:
         keyboard.release(Key.enter)
         time.sleep(2)
 
-        driver.get("https://play.typeracer.com/")
+        driver.get(self.url)
         time.sleep(0.1)
 
     def enter_race(self):
@@ -79,14 +83,16 @@ class Bot:
         for character in race_text:
             keyboard.type(character)
             time.sleep(random.choice(self.key_intervals))
+
+        self.session.race_counts += 1
         time.sleep(0.1)
 
     def exit(self):
         Utilities.tts_print("Shutting down in...", color="yellow")
 
-        number_words = ("three", "two", "one")
+        number_words = ("one", "two", "three")
         for i in range(3):
-            time_to_quit = 3 - i + 1
+            time_to_quit = 4 - (i + 1)
             color = "yellow" if time_to_quit > 2 else "red"
             Utilities.colored_print(f"{time_to_quit}{'.' * time_to_quit}",
                                     color=color)
@@ -94,8 +100,20 @@ class Bot:
 
         driver.quit()
 
+    def validate_link(self):
+        content = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.CLASS_NAME, "themeContent"))
+        )
+        header = content.text.split("\n")[0]
+
+        if header == "This URL was not recognized":
+            Utilities.tts_print("Make sure to put a valid universe URL next time.",
+                                color="yellow")
+            raise Exception("Invalid universe input")
+
     def run(self):
         try:
+            self.validate_link()
             self.login()
             self.enter_race()
 
@@ -104,7 +122,10 @@ class Bot:
                                         color="green")
                 self.race()
                 self.new_race()
-        except:
-            pass
 
+            self.session.result = True
+        except:
+            self.session.result = False
+
+        self.session.save_session()
         self.exit()
