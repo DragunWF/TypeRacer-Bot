@@ -1,16 +1,21 @@
 import json
-import data.config as config
-from .bot import Bot
-from .session import Session
-from .utils import Utilities
+import config
+from bot import Bot
+from session import Session
+from utils import Utilities
 
-bot = Bot()
 session = Session()
+bot = Bot(config.username, config.password, session, 25)
+
+
+def configure_bot():
+    pass
 
 
 def main():
-    bot.run(config.username, config.password, session)
+    configure_bot()
     Utilities.text_to_speech("Bot is now running!")
+    bot.run()
 
 
 if __name__ == "__main__":
