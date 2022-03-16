@@ -1,7 +1,7 @@
 import time
-from colored import fg
+import random
 from pynput.keyboard import Controller, Key
-from .utils import Utilities
+from utils import Utilities
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -19,8 +19,10 @@ class Bot:
         self.username = username
         self.password = password
         self.session = session
+
         self.races_to_play = races
         self.finished_races = 0
+        self.key_intervals = (0.085, 0.090, 0.095)
 
         driver.get("https://play.typeracer.com/")
 
@@ -76,15 +78,15 @@ class Bot:
 
         for character in race_text:
             keyboard.type(character)
-            time.sleep(0.085)
+            time.sleep(random.choice(self.key_intervals))
         time.sleep(0.1)
 
     def exit(self):
         Utilities.tts_print("Shutting down in...", color="yellow")
 
-        number_words = ("one", "two", "three")
+        number_words = ("three", "two", "one")
         for i in range(3):
-            time_to_quit = (i + 1) - 3
+            time_to_quit = 3 - i + 1
             color = "yellow" if time_to_quit > 2 else "red"
             Utilities.colored_print(f"{time_to_quit}{'.' * time_to_quit}",
                                     color=color)
