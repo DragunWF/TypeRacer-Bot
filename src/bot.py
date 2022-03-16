@@ -3,13 +3,13 @@ import time
 from .utils import Utilities
 from colored import fg
 from pynput.keyboard import Controller, Key
-from webdriver_manager.chrome import ChromeDriverManager
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from webdriver_manager.chrome import ChromeDriverManager
 
 driver = webdriver.Chrome(ChromeDriverManager().install())
 
@@ -51,7 +51,7 @@ class Bot:
                 (By.LINK_TEXT, "Enter a Typing Race"))
         )
         start_game.click()
-        time.sleep(0.1)
+        time.sleep(0.05)
 
     def new_race(self):
         new_race = WebDriverWait(driver, 10).until(
@@ -88,7 +88,7 @@ class Bot:
         for i in range(3):
             time_to_quit = (i + 1) - 3
             color = yellow if time_to_quit > 2 else red
-            print(color + time_to_quit)
+            print(f"{color + time_to_quit}{'.' * time_to_quit}")
             Utilities.text_to_speech(number_words[time_to_quit - 1])
 
         driver.quit()
@@ -99,7 +99,6 @@ class Bot:
 
         for i in range(self.races):
             print(green + f"Session Race Count: {i + 1}")
-
             self.race()
             self.new_race()
 
