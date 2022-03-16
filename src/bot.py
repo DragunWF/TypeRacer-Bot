@@ -1,8 +1,7 @@
 import time
-
-from .utils import Utilities
 from colored import fg
 from pynput.keyboard import Controller, Key
+from .utils import Utilities
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -12,16 +11,16 @@ from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 
 driver = webdriver.Chrome(ChromeDriverManager().install())
-
 keyboard = Controller()
-green, yellow, red = fg("light_green"), fg("light_yellow"), fg("light_red")
 
 
 class Bot:
-    def __init__(self, username, password, races):
+    def __init__(self, username, password, session, races):
         self.username = username
         self.password = password
-        self.races = races
+        self.session = session
+        self.races_to_play = races
+        self.finished_races = 0
 
         driver.get("https://play.typeracer.com/")
 
@@ -64,7 +63,7 @@ class Bot:
         input_panel = WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.CLASS_NAME, "inputPanel"))
         )
-        text = input_panel.text.split("\n")[0]
+        race_text = input_panel.text.split("\n")[0]
 
         while True:
             game_time = WebDriverWait(driver, 10).until(
@@ -75,31 +74,35 @@ class Bot:
                 break
             time.sleep(0.2)
 
-        for chr in text:
-            keyboard.type(chr)
+        for character in race_text:
+            keyboard.type(character)
             time.sleep(0.085)
         time.sleep(0.1)
 
     def exit(self):
-        print(yellow + "Shutting down bot in...")
-        Utilities.text_to_speech("Shutting down in...")
+        Utilities.tts_print("Shutting down in...", color="yellow")
 
         number_words = ("one", "two", "three")
         for i in range(3):
             time_to_quit = (i + 1) - 3
-            color = yellow if time_to_quit > 2 else red
-            print(f"{color + time_to_quit}{'.' * time_to_quit}")
+            color = "yellow" if time_to_quit > 2 else "red"
+            Utilities.colored_print(f"{time_to_quit}{'.' * time_to_quit}",
+                                    color=color)
             Utilities.text_to_speech(number_words[time_to_quit - 1])
 
         driver.quit()
 
     def run(self):
-        self.login()
-        self.enter_race()
+        try:
+            self.login()
+            self.enter_race()
 
-        for i in range(self.races):
-            print(green + f"Session Race Count: {i + 1}")
-            self.race()
-            self.new_race()
+            for i in range(self.races_to_play):
+                Utilities.colored_print(f"Session Race Count: {i + 1}",
+                                        color="green")
+                self.race()
+                self.new_race()
+        except:
+            pass
 
         self.exit()
