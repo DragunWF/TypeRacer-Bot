@@ -68,28 +68,27 @@ class Bot:
         sleep(0.1)
 
     def race(self):
-        error = False
-
         try:
             input_panel = WebDriverWait(self.driver, 10).until(
                 EC.presence_of_element_located((By.CLASS_NAME, "inputPanel"))
             )
             race_text = input_panel.text.split("\n")[0]
-        except:
-            error = True
 
-        if len(race_text) < 1 or error:
+            if len(race_text) < 1:
+                self.re_enter_race()
+                return False
+
+            while True:
+                game_time = WebDriverWait(self.driver, 10).until(
+                    EC.presence_of_element_located(
+                        (By.CLASS_NAME, "lightLabel"))
+                )
+                if game_time.text == "Go!":
+                    break
+                sleep(0.2)
+        except:
             self.re_enter_race()
             return False
-
-        while True:
-            game_time = WebDriverWait(self.driver, 10).until(
-                EC.presence_of_element_located(
-                    (By.CLASS_NAME, "lightLabel"))
-            )
-            if game_time.text == "Go!":
-                break
-            sleep(0.2)
 
         race_input = self.driver.find_element_by_class_name("txtInput")
         for character in race_text:
