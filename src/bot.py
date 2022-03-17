@@ -1,17 +1,12 @@
 import time
 import random
-from pynput.keyboard import Controller, Key
 from utils import Utilities
 
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
-
-driver = webdriver.Chrome(ChromeDriverManager().install())
-keyboard = Controller()
 
 
 class Bot:
@@ -22,36 +17,39 @@ class Bot:
 
         self.races_to_play = races
         self.finished_races = 0
-        self.key_intervals = (0.085, 0.090, 0.095)
+        self.key_intervals = (0.045, 0.050, 0.055, 0.060)
 
         self.url = "https://play.typeracer.com/"
+        self.session.universe = universe
+
         if universe != "play":
             self.url += f"?universe={universe}"
 
-        driver.get(self.url)
+        self.driver = webdriver.Chrome(ChromeDriverManager().install())
+        self.driver.get(self.url)
 
     def login(self):
-        sign_in = WebDriverWait(driver, 10).until(
+        sign_in = WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located((By.LINK_TEXT, "Sign In"))
         )
         sign_in.click()
         time.sleep(0.1)
 
-        username = driver.find_element_by_name("username")
+        username = self.driver.find_element_by_name("username")
         username.send_keys(self.username)
-        password = driver.find_element_by_name("password")
+        password = self.driver.find_element_by_name("password")
         password.send_keys(self.password)
         time.sleep(0.05)
 
-        keyboard.press(Key.enter)
-        keyboard.release(Key.enter)
-        time.sleep(2)
+        sign_in_btn = self.driver.find_element_by_class_name("gwt-Button")
+        sign_in_btn.click()
+        time.sleep(1.5)
 
-        driver.get(self.url)
+        self.driver.get(self.url)
         time.sleep(0.1)
 
     def enter_race(self):
-        start_game = WebDriverWait(driver, 10).until(
+        start_game = WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located(
                 (By.LINK_TEXT, "Enter a Typing Race"))
         )
@@ -59,20 +57,20 @@ class Bot:
         time.sleep(0.05)
 
     def new_race(self):
-        new_race = WebDriverWait(driver, 10).until(
+        new_race = WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located((By.LINK_TEXT, "Race again"))
         )
         new_race.click()
         time.sleep(0.1)
 
     def race(self):
-        input_panel = WebDriverWait(driver, 10).until(
+        input_panel = WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located((By.CLASS_NAME, "inputPanel"))
         )
         race_text = input_panel.text.split("\n")[0]
 
         while True:
-            game_time = WebDriverWait(driver, 10).until(
+            game_time = WebDriverWait(self.driver, 10).until(
                 EC.presence_of_element_located(
                     (By.CLASS_NAME, "lightLabel"))
             )
@@ -80,11 +78,13 @@ class Bot:
                 break
             time.sleep(0.2)
 
+        race_input = self.driver.find_element_by_class_name("txtInput")
+        print(race_text)
         for character in race_text:
-            keyboard.type(character)
+            race_input.send_keys(character)
             time.sleep(random.choice(self.key_intervals))
 
-        self.session.race_counts += 1
+        self.finished_races += 1
         time.sleep(0.1)
 
     def exit(self):
@@ -98,13 +98,13 @@ class Bot:
                                     color=color)
             Utilities.text_to_speech(number_words[time_to_quit - 1])
 
-        driver.quit()
+        self.driver.quit()
 
     def validate_link(self):
-        content = WebDriverWait(driver, 10).until(
+        content = WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located((By.CLASS_NAME, "themeContent"))
         )
-        header = content.text.split("\n")[0]
+        header = content.text
 
         if header == "This URL was not recognized":
             Utilities.tts_print("Make sure to put a valid universe URL next time.",
@@ -121,7 +121,8 @@ class Bot:
                 Utilities.colored_print(f"Session Race Count: {i + 1}",
                                         color="green")
                 self.race()
-                self.new_race()
+                if i + 1 != self.races_to_play:
+                    self.new_race()
 
             self.session.result = True
         except:
