@@ -14,7 +14,7 @@ class Utilities:
 
     @staticmethod
     def colored_print(text, color):
-        color_func = fg(f"light_{color}") if color != "white" else fg(f"white")
+        color_func = fg(f"light_{color}") if color != "white" else fg("white")
         print(color_func + text)
 
     @staticmethod
