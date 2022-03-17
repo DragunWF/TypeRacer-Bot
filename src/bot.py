@@ -1,12 +1,13 @@
 import random
 from time import sleep
-from utils import Utilities
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
+
+from utils import Utilities
 
 
 class Bot:
@@ -16,8 +17,7 @@ class Bot:
         self.session = session
 
         self.races_to_play = races
-        self.finished_races = 0
-        self.key_intervals = (0.040, 0.045, 0.050, 0.055, 0.060)
+        self.key_intervals = (0.025, 0.030, 0.035, 0.040, 0.045)
 
         self.url = "https://play.typeracer.com/"
         self.session.universe = universe
@@ -33,7 +33,7 @@ class Bot:
             EC.presence_of_element_located((By.LINK_TEXT, "Sign In"))
         )
         sign_in.click()
-        sleep(0.1)
+        sleep(0.2)
 
         username = self.driver.find_element_by_name("username")
         username.send_keys(self.username)
@@ -98,8 +98,17 @@ class Bot:
             else:
                 self.re_enter_race()
                 return False
+        sleep(0.05)
 
-        self.finished_races += 1
+        race_status = self.driver.find_element_by_class_name("gameStatusLabel")
+        if race_status.text == "You finished 1st!":
+            Utilities.colored_print(race_status.text, color="cyan")
+            self.session.wins += 1
+        else:
+            Utilities.colored_print(race_status.text, color="yellow")
+            self.session.losses += 1
+
+        self.session.races += 1
         sleep(0.1)
 
         return True
@@ -110,9 +119,8 @@ class Bot:
         number_words = ("one", "two", "three")
         for i in range(3):
             seconds_to_exit = 4 - (i + 1)
-            color = "yellow" if seconds_to_exit > 1 else "red"
             Utilities.colored_print(f"{seconds_to_exit}{'.' * seconds_to_exit}",
-                                    color=color)
+                                    color="yellow")
             Utilities.text_to_speech(number_words[seconds_to_exit - 1])
 
         self.driver.quit()
@@ -141,7 +149,7 @@ class Bot:
             self.session.result = True
         except Exception as error:
             Utilities.tts_print("An error has occured", color="red")
-            Utilities.colored_print(error, color="white")
+            print(f"ERROR: {error}")
             self.session.result = False
 
         self.session.save_session()
