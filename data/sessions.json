@@ -5,5 +5,26 @@
     "losses": 0,
     "universe": "play",
     "session_result": "success"
+  },
+  {
+    "races": 2,
+    "wins": 1,
+    "losses": 1,
+    "universe": "play",
+    "session_result": "success"
+  },
+  {
+    "races": 7,
+    "wins": 2,
+    "losses": 5,
+    "universe": "play",
+    "session_result": "interrupted"
+  },
+  {
+    "races": 16,
+    "wins": 2,
+    "losses": 14,
+    "universe": "play",
+    "session_result": "interrupted"
   }
 ]
