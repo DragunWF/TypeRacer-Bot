@@ -14,7 +14,8 @@ class Utilities:
 
     @staticmethod
     def colored_print(text, color):
-        print(fg(f"light_{color}") + text)
+        color_func = fg(f"light_{color}") if color != "white" else fg(f"white")
+        print(color_func + text)
 
     @staticmethod
     def tts_print(text, color=None):
