@@ -6,6 +6,8 @@
 - [Functionalities](#Functionalities)
 - [Details](#Details)
 - [Setup](#Setup)
+- [Status](#Status)
+- [Contact](#Contact)
 
 ## Description
 
@@ -48,8 +50,8 @@ password = "sample_password"
 
 ## Status
 
-Currently, most of this bot's main features are complete. There are still some things that
-I've been thinking about adding in the future, so it'll still get some updates from time to time.
+Currently, this bot's main features are complete. There are still some extra things I've
+been thinking about adding in the future, so it'll still get some updates from time to time.
 Just don't expect it to get frequent updates on a consistent time basis.
 
 ## Contact
