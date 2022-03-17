@@ -3,6 +3,6 @@
     "race_amount_type": "numbered",
     "races": 250,
     "universe": "play",
-    "key_intervals": [0.035, 0.040, 0.045, 0.050, 0.055]
+    "key_intervals": [0.040, 0.045, 0.050, 0.055, 0.060]
   }
 ]
