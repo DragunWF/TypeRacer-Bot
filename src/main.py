@@ -6,29 +6,39 @@ from utils import Utilities
 from colored import fg
 
 session = Session()
+cyan, white = fg("light_cyan"), fg("white")
+
+
+def change_settings():
+    while True:
+        try:
+            races = int(input(cyan + "$ How many races would you like to run: "
+                              + white))
+            universe = input(cyan + "$ Universe: " +
+                             white).strip().lower()
+            break
+        except ValueError:
+            Utilities.colored_print("Make input an integer value...",
+                                    color="red")
+
+    return races, universe
 
 
 def configure_bot():
-    cyan, white = fg("light_cyan"), fg("white")
-    try:
-        while True:
-            default = input(
-                cyan + "Would you like to use the default settings? (y/n) " + white).strip().lower()
-            if default == "y" or default == "yes":
-                races = 100
-                universe = "play"
-            elif default == "n" or default == "no":
-                races = int(
-                    input(cyan + "$ How many races would you like to run: " + white))
-                universe = input(cyan + "$ Universe: " + white).strip().lower()
-            else:
-                Utilities.colored_print("Invalid option!", color="red")
+    while True:
+        default = input(cyan + "Would you like to use the default settings? (y/n) "
+                        + white).strip().lower()
+        if default == "y" or default == "yes":
+            races = 100
+            universe = "play"
             break
-        settings = {"race_runs": races, "universe": universe}
-    except ValueError:
-        Utilities.colored_print("Invalid Input", color="red")
+        elif default == "n" or default == "no":
+            races, universe = change_settings()
+            break
+        else:
+            Utilities.colored_print("Invalid option!", color="red")
 
-    return settings
+    return {"race_runs": races, "universe": universe}
 
 
 def main():
