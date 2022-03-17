@@ -1,8 +1,8 @@
 import json
-import config
 from pathlib import Path
 from colored import fg
 
+import config
 from bot import Bot
 from session import Session
 from utils import Utilities
@@ -23,7 +23,7 @@ def change_settings():
             Utilities.colored_print("Make sure your input is an integer value...",
                                     color="red")
 
-    return races, universe
+    return (races, universe)
 
 
 def configure_bot():
@@ -33,23 +33,23 @@ def configure_bot():
         default = input(cyan + "Would you like to use the default settings? (y/n) "
                         + white).strip().lower()
         if default == "y" or default == "yes":
-            races = default_settings["races"]
-            universe = default_settings["universe"]
             break
         elif default == "n" or default == "no":
-            races, universe = change_settings()
+            changes = change_settings()
+            default_settings["races"] = changes[0]
+            default_settings["universe"] = changes[1]
             break
         else:
             Utilities.colored_print("Invalid option!", color="red")
 
-    return {"race_runs": races, "universe": universe}
+    return default_settings
 
 
 def main():
-    configuration = configure_bot()
+    settings = configure_bot()
     bot = Bot(config.username, config.password,
-              session, configuration["race_runs"],
-              configuration["universe"])
+              session, settings["races"],
+              settings["universe"], settings["key_intervals"])
     Utilities.tts_print("Bot is now running!", color="green")
     bot.run()
 

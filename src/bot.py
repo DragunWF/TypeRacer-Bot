@@ -11,13 +11,13 @@ from utils import Utilities
 
 
 class Bot:
-    def __init__(self, username, password, session, races, universe):
+    def __init__(self, username, password, session, races, universe, intervals):
         self.username = username
         self.password = password
         self.session = session
 
         self.races_to_play = races
-        self.key_intervals = (0.025, 0.030, 0.035, 0.040, 0.045)
+        self.key_intervals = tuple(intervals)
 
         self.url = "https://play.typeracer.com/"
         self.session.universe = universe
