@@ -10,7 +10,8 @@
 ## Description
 
 This is an automation project powered by Selenium that allows you to
-automate races in [TypeRacer](https://play.typeracer.com/).
+automate races in [TypeRacer](https://play.typeracer.com/). Just sit back
+and relax while observing the bot doing its work.
 
 ## Functionalities
 
@@ -42,7 +43,8 @@ password = "sample_password"
 - After that, if you want to override the default settings set for the bot. You can go
   to `data/settings.json` to change the values.
 - If the bot user you're using hasn't gone through the 100 wpm captcha test. You may
-  have to increase the `"key_intervals" values in `data/settings.json` to lower your wpm.
+  have to increase the `"key_intervals"` values in `data/settings.json` to lower your wpm and
+  to avoid the captcha test alert.
 
 ## Status
 
