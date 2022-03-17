@@ -9,7 +9,7 @@
 
 ## Description
 
-Hello, this is an automation project powered by Selenium that allows you to
+This is an automation project powered by Selenium that allows you to
 automate races in [TypeRacer](https://play.typeracer.com/).
 
 ## Functionalities
@@ -25,10 +25,11 @@ automate races in [TypeRacer](https://play.typeracer.com/).
   in `settings.json`.
 - Everytime you finish a session whether it's interrupted or not. The stats for
   that session gets saved in `data/sessions.json`.
+- One thing to note, if you 
 
 ## Setup
 
-- Firstly, Make sure your [chrome webdriver](https://sites.google.com/a/chromium.org/chromedriver/downloads) and donwload the correct webdriver for you version of chrome.
+- Firstly, Make sure your [chrome webdriver](https://sites.google.com/a/chromium.org/chromedriver/downloads) is installed and download the correct webdriver for you version of chrome.
 - Secondly, if you want to try it out. You have to make a file inside the `src`
   directory and make a file named `config.py`. Inside that file, make two variables
   named `username` and `password`. And of course, that's where you'll be storing your
@@ -42,7 +43,13 @@ password = "sample_password"
 - After that, if you want to override the default settings set for the bot. You can go
   to `data/settings.json` to change the values.
 
+## Status
+
+Currently, most of this bot's main features are complete. There's still some things that
+I've thinking about adding in the future, so it'll still get some updates from time to time.
+Just don't expect it to get frequent updates on a consistent time basis.
+
 ## Contact
 
-- If you want to give me feedback or suggestions on the bot you can contact me via
-  discord, my discord tag is **DragonWF#9321**.
+If you want to give me feedback or suggestions on the bot you can contact me via
+discord, my discord tag is **DragonWF#9321**.
