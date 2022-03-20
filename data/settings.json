@@ -1,6 +1,7 @@
 [
   {
-    "race_amount_type": "numbered",
+    "registered": false,
+    "practice_mode": true,
     "races": 250,
     "universe": "play",
     "key_intervals": [0.040, 0.045, 0.050, 0.055, 0.060]
