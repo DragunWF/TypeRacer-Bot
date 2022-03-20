@@ -1,9 +1,9 @@
 [
   {
     "registered": false,
-    "practice_mode": true,
+    "practice_mode": false,
     "races": 250,
     "universe": "play",
-    "key_intervals": [0.040, 0.045, 0.050, 0.055, 0.060]
+    "key_intervals": [0.050, 0.055, 0.060, 0.065, 0.070]
   }
 ]
