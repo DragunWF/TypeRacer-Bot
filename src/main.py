@@ -12,22 +12,25 @@ cyan, white, red = fg("light_cyan"), fg("white"), fg("light_red")
 
 
 def user_choose(question) -> bool:
-    option = input(cyan + f"{question} (y/n) " + white).strip().lower()
-    if option == "y" or option == "yes":
-        return True
-    if option == "n" or option == "no":
-        return False
-    Utilities.colored_print("Invalid input!", color="red")
-    user_choose(question)
+    while True:
+        option = input(cyan + f"{question} (y/n) " + white).strip().lower()
+        if option == "y" or option == "yes":
+            return True
+        if option == "n" or option == "no":
+            return False
+        Utilities.colored_print("Invalid input!", color="red")
 
 
 def change_settings() -> tuple:
     while True:
         try:
-            races = int(input(cyan + "How many races would you like to run: "+ white))
+            races = int(
+                input(cyan + "How many races would you like to run: " + white))
             universe = input(cyan + "Universe: " + white).strip().lower()
-            registered = user_choose("Are you going to play in a registered account?")
-            practice_mode = user_choose("Are you going to play in practice mode?")
+            registered = user_choose(
+                "Are you going to play in a registered account?")
+            practice_mode = user_choose(
+                "Are you going to play in practice mode?")
             break
         except ValueError:
             Utilities.colored_print("Make sure your input is an integer value...",
