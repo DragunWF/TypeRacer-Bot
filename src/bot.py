@@ -11,22 +11,27 @@ from utils import Utilities
 
 
 class Bot:
-    def __init__(self, username, password, session, races, universe, intervals):
+    def __init__(self, username, password, session, settings):
         self.username = username
         self.password = password
         self.session = session
 
-        self.races_to_play = races
-        self.key_intervals = tuple(intervals)
+        self.races_to_play = settings["races"]
+        self.key_intervals = tuple(settings["key_intervals"])
+        self.registered = settings["registered"]
+        self.practice_mode = settings["practice_mode"]
 
         self.url = "https://play.typeracer.com/"
-        self.session.universe = universe
+        self.session.universe = settings["universe"]
 
-        if universe != "play":
-            self.url += f"?universe={universe}"
+        if settings["universe"] != "play":
+            self.url += f"?universe={settings['universe']}"
 
         self.driver = webdriver.Chrome(ChromeDriverManager().install())
         self.driver.get(self.url)
+
+    def set_guest_username(self):
+        pass
 
     def login(self):
         sign_in = WebDriverWait(self.driver, 10).until(
@@ -35,23 +40,21 @@ class Bot:
         sign_in.click()
         sleep(0.2)
 
-        username = self.driver.find_element_by_name("username")
-        username.send_keys(self.username)
-        password = self.driver.find_element_by_name("password")
-        password.send_keys(self.password)
+        self.driver.find_element_by_name("username").send_keys(self.username)
+        self.driver.find_element_by_name("password").send_keys(self.password)
         sleep(0.05)
 
-        sign_in_btn = self.driver.find_element_by_class_name("gwt-Button")
-        sign_in_btn.click()
+        self.driver.find_element_by_class_name("gwt-Button").click()
         sleep(1.5)
 
         self.driver.get(self.url)
         sleep(0.1)
 
     def enter_race(self):
+        link_text = "Practice Yourself" if self.practice_mode else "Enter a Typing Race"
+
         start_game = WebDriverWait(self.driver, 10).until(
-            EC.presence_of_element_located(
-                (By.LINK_TEXT, "Enter a Typing Race"))
+            EC.presence_of_element_located((By.LINK_TEXT, link_text))
         )
         start_game.click()
         sleep(0.05)
@@ -100,13 +103,14 @@ class Bot:
                 return False
         sleep(0.05)
 
-        race_status = self.driver.find_element_by_class_name("gameStatusLabel")
-        if race_status.text == "You finished 1st!":
-            Utilities.colored_print(race_status.text, color="cyan")
-            self.session.wins += 1
-        else:
-            Utilities.colored_print(race_status.text, color="yellow")
-            self.session.losses += 1
+        if not self.practice_mode:
+            race_status = self.driver.find_element_by_class_name("gameStatusLabel")
+            if race_status.text == "You finished 1st!":
+                Utilities.colored_print(race_status.text, color="cyan")
+                self.session.wins += 1
+            else:
+                Utilities.colored_print(race_status.text, color="yellow")
+                self.session.losses += 1
 
         self.session.races += 1
         sleep(0.1)
@@ -139,7 +143,7 @@ class Bot:
     def run(self):
         try:
             self.validate_link()
-            self.login()
+            self.login() if self.registered else self.set_guest_username()
             self.enter_race()
             for i in range(self.races_to_play):
                 Utilities.colored_print(f"Session Race Count: {i + 1}",
