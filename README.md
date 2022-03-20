@@ -28,25 +28,29 @@ and relax while observing the bot doing its work.
   in `settings.json`.
 - Every time you finish a session whether it's interrupted or not. The stats for
   that session gets saved in `data/sessions.json`.
+- The bot can only type around 90-95 wpm because going over 100 wpm will result in
+  the website giving you a captcha test.
 
 ## Setup
 
-- Firstly, Make sure your [chrome webdriver](https://sites.google.com/a/chromium.org/chromedriver/downloads) is installed and download the correct webdriver for your version of chrome.
-- Secondly, if you want to try it out. You have to make a file inside the `src`
-  directory and make a file named `config.py`. Inside that file, make two variables
-  named `username` and `password`. And of course, that's where you'll be storing your
-  bot's username and password. **(Please do not use your main)**
+- Make sure your [chrome webdriver](https://sites.google.com/a/chromium.org/chromedriver/downloads)
+  is installed and download the correct webdriver for your version of chrome.
+- **if you're only playing as a guest user then you can just go ahead and run `main.py` to get started immediately.**
+- if you want to try it out with a registered account. You have to make a
+  file inside the `src` directory and make a file named `config.py`. Inside that
+  file, make two variables named `username` and `password`. And of course, that's
+  where you'll be storing your bot's username and password. And finally, you have
+  to set `"registered"` in `data/settings.json` to `false`.
 
 ```py
 username = "sample_name"
 password = "sample_password"
 ```
 
+- **Warning** for people wanting to use it with a registered account: it's possible can get banned from
+  typeracer depending on what you do, so use it at your own risk.
 - After that, if you want to override the default settings set for the bot. You can go
   to `data/settings.json` to change the values.
-- If the bot user you're using hasn't gone through the 100 wpm captcha test. You may
-  have to increase the `"key_intervals"` values in `data/settings.json` to lower your wpm and
-  to avoid the captcha test alert.
 
 ## Status
 
