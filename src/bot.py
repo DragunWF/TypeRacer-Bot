@@ -21,17 +21,46 @@ class Bot:
         self.registered = settings["registered"]
         self.practice_mode = settings["practice_mode"]
 
-        self.url = "https://play.typeracer.com/"
+        self.session.registered = settings["registered"]
+        self.session.practice_mode = settings["practice_mode"]
         self.session.universe = settings["universe"]
 
+        self.url = "https://play.typeracer.com/"
         if settings["universe"] != "play":
             self.url += f"?universe={settings['universe']}"
+
+        if not self.registered:
+            self.restarted = False
 
         self.driver = webdriver.Chrome(ChromeDriverManager().install())
         self.driver.get(self.url)
 
     def set_guest_username(self):
-        pass
+        usernames = ("Aether", "OneFingerTyping",
+                     "Programmer", "Arthur", "SuitAndTie",
+                     "To The Moon", "Fly me to the sun",
+                     "Excalibur", "King Guest", "Do we exist?")
+
+        sign_in = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((By.LINK_TEXT, "Sign In"))
+        )
+        sign_in.click()
+        sleep(0.1)
+
+        self.driver.find_element_by_link_text("Choose a guest nickname (play without an account)").click()
+        sleep(2)
+
+        input_username = self.driver.find_elements_by_class_name(
+            "gwt-TextBox")[2]
+        input_username.click()
+        input_username.clear()
+        input_username.send_keys(random.choice(usernames))
+
+        apply = self.driver.find_elements_by_class_name("gwt-Button")[2]
+        apply.click()
+        sleep(0.05)
+
+        self.restarted = False
 
     def login(self):
         sign_in = WebDriverWait(self.driver, 10).until(
@@ -61,11 +90,21 @@ class Bot:
 
     def re_enter_race(self):
         self.driver.get(self.url)
+        if not self.registered:
+            self.set_guest_username()
+            self.restarted = True
         self.enter_race()
 
     def new_race(self):
+        if self.practice_mode and (self.session.races <= 1 or self.restarted):
+            close_pop_up = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.LINK_TEXT, "OK"))
+            )
+            close_pop_up.click()
+
+        link_text = "New race" if self.practice_mode else "Race again"
         new_race = WebDriverWait(self.driver, 10).until(
-            EC.presence_of_element_located((By.LINK_TEXT, "Race again"))
+            EC.presence_of_element_located((By.LINK_TEXT, link_text))
         )
         new_race.click()
         sleep(0.1)
@@ -104,7 +143,8 @@ class Bot:
         sleep(0.05)
 
         if not self.practice_mode:
-            race_status = self.driver.find_element_by_class_name("gameStatusLabel")
+            race_status = self.driver.find_element_by_class_name(
+                "gameStatusLabel")
             if race_status.text == "You finished 1st!":
                 Utilities.colored_print(race_status.text, color="cyan")
                 self.session.wins += 1
@@ -152,7 +192,7 @@ class Bot:
                     self.new_race()
             self.session.result = True
         except Exception as error:
-            Utilities.tts_print("An error has occured", color="red")
+            Utilities.tts_print("An error has occured!", color="red")
             print(f"ERROR: {error}")
             self.session.result = False
 
