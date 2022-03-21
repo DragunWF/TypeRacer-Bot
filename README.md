@@ -36,21 +36,30 @@ and relax while observing the bot doing its work.
 - Make sure your [chrome webdriver](https://sites.google.com/a/chromium.org/chromedriver/downloads)
   is installed and download the correct webdriver for your version of chrome.
 - **if you're only playing as a guest user then you can just go ahead and run `main.py` to get started immediately.**
-- if you want to try it out with a registered account. You have to make a
-  file inside the `src` directory and make a file named `config.py`. Inside that
-  file, make two variables named `username` and `password`. And of course, that's
-  where you'll be storing your bot's username and password. And finally, you have
-  to set `"registered"` in `data/settings.json` to `false`.
+- if you want to try it out with a registered bot account. You have to go to `data/settings.json`
+  and set `registered` to `true` and of course, you have to enter your bot's details at `"username"`
+  and `"password"`. Then after that you can just run `main.py` to get started.
 
-```py
-username = "sample_name"
-password = "sample_password"
+```json
+[
+  {
+    "registered": true,
+    "practice_mode": false,
+    "races": 250,
+    "universe": "play",
+    "key_intervals": [0.055, 0.06, 0.065, 0.07, 0.075]
+  },
+  {
+    "username": "sample_username",
+    "password": "sample_password"
+  }
+]
 ```
 
-- **Warning** for people wanting to use it with a registered account: it's possible you can get 
+- **Warning** for people wanting to use it with a registered account: it's possible you can get
   banned from typeracer depending on what you do, so use it at your own risk.
-- After that, if you want to override the default settings set for the bot. You can go
-  to `data/settings.json` to change the values.
+- if you want to override the default settings set for the bot. You can go to 
+  `data/settings.json` to change the values.
 
 ## Status
 
