@@ -27,6 +27,5 @@ class Session:
                         "universe": self.universe, "session_result": result}
         data.append(session_data)
 
-        formatted = json.dumps(data, sort_keys=False,
-                               indent=2, separators=(',', ': '))
+        formatted = json.dumps(data, sort_keys=False, indent=2, separators=(',', ': '))
         Path("data/sessions.json").write_text(formatted)
