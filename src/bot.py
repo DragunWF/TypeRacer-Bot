@@ -36,7 +36,7 @@ class Bot:
         self.driver.get(self.url)
 
     def set_guest_username(self):
-        usernames = ("Aether", "OneFingerTyping",
+        usernames = ("Aether", "dancefloor",
                      "Programmer", "Arthur", "SuitAndTie",
                      "To The Moon", "Fly me to the sun",
                      "Excalibur", "King Guest", "Do we exist?")
@@ -50,8 +50,7 @@ class Bot:
         self.driver.find_element_by_link_text("Choose a guest nickname (play without an account)").click()
         sleep(2)
 
-        input_username = self.driver.find_elements_by_class_name(
-            "gwt-TextBox")[2]
+        input_username = self.driver.find_elements_by_class_name("gwt-TextBox")[2]
         input_username.click()
         input_username.clear()
         input_username.send_keys(random.choice(usernames))

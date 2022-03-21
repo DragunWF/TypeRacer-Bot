@@ -47,8 +47,8 @@ username = "sample_name"
 password = "sample_password"
 ```
 
-- **Warning** for people wanting to use it with a registered account: it's possible can get banned from
-  typeracer depending on what you do, so use it at your own risk.
+- **Warning** for people wanting to use it with a registered account: it's possible you can get 
+  banned from typeracer depending on what you do, so use it at your own risk.
 - After that, if you want to override the default settings set for the bot. You can go
   to `data/settings.json` to change the values.
 
