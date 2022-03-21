@@ -4,6 +4,10 @@
     "practice_mode": false,
     "races": 250,
     "universe": "play",
-    "key_intervals": [0.050, 0.055, 0.060, 0.065, 0.070]
+    "key_intervals": [0.055, 0.060, 0.065, 0.070, 0.075]
+  },
+  {
+    "username": "sample_username",
+    "password": "sample_password"
   }
 ]

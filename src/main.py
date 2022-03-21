@@ -2,7 +2,6 @@ import json
 from pathlib import Path
 from colored import fg
 
-import config
 from bot import Bot
 from session import Session
 from utils import Utilities
@@ -24,8 +23,7 @@ def user_choose(question) -> bool:
 def change_settings() -> tuple:
     while True:
         try:
-            races = int(
-                input(cyan + "How many races would you like to run: " + white))
+            races = int(input(cyan + "How many races would you like to run: " + white))
             universe = input(cyan + "Universe: " + white).strip().lower()
             registered = user_choose(
                 "Are you going to play in a registered account?")
@@ -54,8 +52,10 @@ def configure_bot() -> dict:
 
 
 def main():
+    config = json.loads(Path("data/settings.json").read_text())[1]
     settings = configure_bot()
-    bot = Bot(config.username, config.password, session, settings)
+
+    bot = Bot(config["username"], config["password"], session, settings)
     Utilities.tts_print("Bot is now running!", color="green")
     bot.run()
 
