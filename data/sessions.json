@@ -26,5 +26,32 @@
     "losses": 14,
     "universe": "play",
     "session_result": "interrupted"
+  },
+  {
+    "registered": false,
+    "practice_mode": false,
+    "races": 14,
+    "wins": 8,
+    "losses": 6,
+    "universe": "play",
+    "session_result": "interrupted"
+  },
+  {
+    "registered": false,
+    "practice_mode": false,
+    "races": 2,
+    "wins": 1,
+    "losses": 1,
+    "universe": "play",
+    "session_result": "interrupted"
+  },
+  {
+    "registered": false,
+    "practice_mode": false,
+    "races": 3,
+    "wins": 0,
+    "losses": 3,
+    "universe": "play",
+    "session_result": "interrupted"
   }
 ]
