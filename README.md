@@ -43,11 +43,11 @@ and relax while observing the bot doing its work.
 ```json
 [
   {
-    "registered": true,
+    "registered": false,
     "practice_mode": false,
     "races": 250,
     "universe": "play",
-    "key_intervals": [0.055, 0.06, 0.065, 0.07, 0.075]
+    "key_intervals": [0.065, 0.070, 0.075, 0.080, 0.085]
   },
   {
     "username": "sample_username",
