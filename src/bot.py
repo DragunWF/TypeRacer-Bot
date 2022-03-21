@@ -30,6 +30,7 @@ class Bot:
             self.url += f"?universe={settings['universe']}"
 
         if not self.registered:
+            self.after_restart_races = 0
             self.restarted = False
 
         self.driver = webdriver.Chrome(ChromeDriverManager().install())
@@ -92,6 +93,7 @@ class Bot:
         if not self.registered:
             self.set_guest_username()
             self.restarted = True
+            self.after_restart_races = 0
         self.enter_race()
 
     def new_race(self):
@@ -100,13 +102,20 @@ class Bot:
                 EC.presence_of_element_located((By.LINK_TEXT, "OK"))
             )
             close_pop_up.click()
-
+        
         link_text = "New race" if self.practice_mode else "Race again"
         new_race = WebDriverWait(self.driver, 10).until(
             EC.presence_of_element_located((By.LINK_TEXT, link_text))
         )
         new_race.click()
         sleep(0.1)
+
+        if not self.registered and self.after_restart_races >= 2:
+            register_pop_up = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.LINK_TEXT, "No thanks :("))
+            )
+            register_pop_up.click()
+            sleep(1)
 
     def race(self):
         try:
@@ -150,6 +159,9 @@ class Bot:
             else:
                 Utilities.colored_print(race_status.text, color="yellow")
                 self.session.losses += 1
+
+        if not self.registered:
+            self.after_restart_races += 1
 
         self.session.races += 1
         sleep(0.1)
