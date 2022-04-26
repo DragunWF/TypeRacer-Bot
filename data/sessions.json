@@ -53,5 +53,14 @@
     "losses": 3,
     "universe": "play",
     "session_result": "interrupted"
+  },
+  {
+    "registered": false,
+    "practice_mode": false,
+    "races": 1,
+    "wins": 0,
+    "losses": 1,
+    "universe": "play",
+    "session_result": "success"
   }
 ]
