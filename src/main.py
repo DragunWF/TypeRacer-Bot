@@ -15,10 +15,8 @@ def change_settings() -> tuple:
         try:
             races = int(input(cyan + "How many races would you like to run: " + white))
             universe = input(cyan + "Universe: " + white).strip().lower()
-            registered = Utils.user_choose(
-                "Are you going to play in a registered account?")
-            practice_mode = Utils.user_choose(
-                "Are you going to play in practice mode?")
+            registered = Utils.user_choose("Are you going to play in a registered account?")
+            practice_mode = Utils.user_choose("Are you going to play in practice mode?")
             break
         except ValueError:
             Utils.colored_print("Make sure your input is an integer value...",

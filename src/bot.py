@@ -196,7 +196,6 @@ class Bot:
             self.__validate_link()
             self.__login() if self.__registered else self.__set_guest_username()
             self.__enter_race()
-
             for i in range(self.__races_to_play):
                 Utils.colored_print(f"Session Race Count: {i + 1}",
                                         color="green")
