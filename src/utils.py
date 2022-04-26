@@ -6,7 +6,7 @@ voices = voice_engine.getProperty("voices")
 voice_engine.setProperty("voice", voices[0].id)
 
 
-class Utilities:
+class Utils:
     @staticmethod
     def text_to_speech(text):
         voice_engine.say(text)
@@ -19,5 +19,16 @@ class Utilities:
 
     @staticmethod
     def tts_print(text, color=None):
-        Utilities.colored_print(text, color if color else "white")
-        Utilities.text_to_speech(text)
+        Utils.colored_print(text, color if color else "white")
+        Utils.text_to_speech(text)
+
+    @staticmethod
+    def user_choose(question: str) -> bool:
+        cyan, white = fg("light_cyan"), fg("white"), fg("light_red")
+        while True:
+            option = input(cyan + f"{question} (y/n) " + white).strip().lower()
+            if option == "y" or option == "yes":
+                return True
+            if option == "n" or option == "no":
+                return False
+            Utils.colored_print("Invalid input!", color="red")
