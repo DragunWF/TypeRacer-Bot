@@ -12,13 +12,13 @@ class Session:
         self.registered = None
         self.practice_mode = None
 
-    def validate_information(self):
+    def __validate_information(self):
         if self.practice_mode:
             self.wins = None
             self.losses = None
 
     def save_session(self):
-        self.validate_information()
+        self.__validate_information()
 
         result = "success" if self.result else "interrupted"
         data = json.loads(Path("data/sessions.json").read_text())
