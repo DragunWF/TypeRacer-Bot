@@ -24,7 +24,7 @@ class Utils:
 
     @staticmethod
     def user_choose(question: str) -> bool:
-        cyan, white = fg("light_cyan"), fg("white"), fg("light_red")
+        cyan, white = fg("light_cyan"), fg("white")
         while True:
             option = input(cyan + f"{question} (y/n) " + white).strip().lower()
             if option == "y" or option == "yes":
