@@ -1,5 +1,9 @@
 # TypeRacer Bot
 
+![GitHub top language](https://img.shields.io/github/languages/top/DragunWF/TypeRacer-Bot)
+![Lines of code](https://img.shields.io/tokei/lines/github/DragunWF/TypeRacer-Bot)
+![GitHub repo size](https://img.shields.io/github/repo-size/DragunWF/TypeRacer-Bot)
+
 ## Table of Contents
 
 - [Description](#Description)
@@ -47,7 +51,7 @@ and relax while observing the bot doing its work.
     "practice_mode": false,
     "races": 250,
     "universe": "play",
-    "key_intervals": [0.065, 0.070, 0.075, 0.080, 0.085]
+    "key_intervals": [0.065, 0.07, 0.075, 0.08, 0.085]
   },
   {
     "username": "sample_username",
@@ -58,7 +62,7 @@ and relax while observing the bot doing its work.
 
 - **Warning** for people wanting to use it with a registered account: it's possible you can get
   banned from typeracer depending on what you do, so use it at your own risk.
-- if you want to override the default settings set for the bot. You can go to 
+- if you want to override the default settings set for the bot. You can go to
   `data/settings.json` to change the values.
 
 ## Status
