@@ -74,4 +74,4 @@ Just don't expect it to get frequent updates on a consistent time basis.
 ## Contact
 
 If you want to give me feedback or suggestions on the bot you can contact me via
-discord, my discord tag is **DragonWF#9321**.
+discord, my discord tag is **dragunwf**.
